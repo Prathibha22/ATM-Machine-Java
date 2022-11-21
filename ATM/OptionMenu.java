@@ -1,6 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -185,6 +183,7 @@ public class OptionMenu {
 		System.out.println("\nEnter PIN to be registered");
 		int pin = menuInput.nextInt();
 		data.put(cst_no, new Account(cst_no, pin));
+		writeToFile(cst_no,pin,0,0);
 		System.out.println("\nYour new account has been successfuly registered!");
 		System.out.println("\nRedirecting to login.............");
 		getLogin();
@@ -221,9 +220,12 @@ public class OptionMenu {
 		menuInput.close();
 		System.exit(0);
 	}
-	public void writeToFile(){
+	public void writeToFile(int custNo,int pwd,double cAccBal,double sAccBal){
 		try {
-			BufferedWriter writer=new BufferedWriter(new FileWriter("users.txt"));
+			BufferedWriter writer=new BufferedWriter(new FileWriter("users.txt",true));
+			writer.write(custNo+","+pwd+","+cAccBal+","+sAccBal);
+			writer.newLine();
+			writer.flush();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
