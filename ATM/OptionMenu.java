@@ -1,3 +1,5 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -47,7 +49,8 @@ public class OptionMenu {
 				System.out.println("\nSelect the account you want to access: ");
 				System.out.println(" Type 1 - Checkings Account");
 				System.out.println(" Type 2 - Savings Account");
-				System.out.println(" Type 3 - Exit");
+				System.out.println(" Type 3 - Statement");
+				System.out.println(" Type 4 - Exit");
 				System.out.print("\nChoice: ");
 
 				int selection = menuInput.nextInt();
@@ -59,7 +62,13 @@ public class OptionMenu {
 				case 2:
 					getSaving(acc);
 					break;
-				case 3:
+					case 3:
+						System.out.println("\nCheckings Account Balance: " + moneyFormat.format(acc.getCheckingBalance()));
+						System.out.println("\nSavings Account Balance: " + moneyFormat.format(acc.getSavingBalance()));
+						System.out.println("\nTotal Account Balance: " + moneyFormat.format(acc.getCheckingBalance()+acc.getSavingBalance()));
+
+						break;
+				case 4:
 					end = true;
 					break;
 				default:
@@ -211,5 +220,13 @@ public class OptionMenu {
 		System.out.println("\nThank You for using this ATM.\n");
 		menuInput.close();
 		System.exit(0);
+	}
+	public void writeToFile(){
+		try {
+			BufferedWriter writer=new BufferedWriter(new FileWriter("users.txt"));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 }
