@@ -10,6 +10,7 @@ public class OptionMenu {
 	Scanner menuInput = new Scanner(System.in);
 	DecimalFormat moneyFormat = new DecimalFormat("'$'###,##0.00");
 	HashMap<Integer, Account> data = new HashMap<Integer, Account>();
+	Account accFromFile=null;
 
 	public void getLogin() throws IOException {
 		boolean end = false;
@@ -25,6 +26,7 @@ public class OptionMenu {
 				while (it.hasNext()) {
 					Map.Entry pair = (Map.Entry) it.next();
 					Account acc = (Account) pair.getValue();
+					readFromFile(customerNumber);
 					if (data.containsKey(customerNumber) && pinNumber == acc.getPinNumber()) {
 						getAccountType(acc);
 						end = true;
@@ -229,6 +231,25 @@ public class OptionMenu {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
-}
+	public void readFromFile(int custNo){
+		try {
+			BufferedReader br=new BufferedReader(new FileReader("users.txt"));
+			while ((br.readLine()) != null) {
+				String[] acc = br.readLine().split(",");
+				if(Integer.valueOf(acc[0]).equals(custNo)){
+				int cust=Integer.valueOf(acc[0]);
+				int password=Integer.valueOf(acc[1]);
+				double checkBal=Double.valueOf(acc[2]);
+				double savingBal=Double.valueOf(acc[3]);
+				 accFromFile=new Account(cust,password,checkBal,savingBal);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		//return accFromFile;
+	}
+	}
